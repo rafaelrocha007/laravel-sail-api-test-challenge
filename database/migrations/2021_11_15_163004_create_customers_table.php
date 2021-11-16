@@ -19,13 +19,19 @@ class CreateCustomersTable extends Migration
                 $table->id();
                 $table->string('first_name');
                 $table->string('last_name')->nullable();
-                $table->string('email');
-                $table->string('title')->nullable();
+                $table->string('email')->unique();
+                $table->float('latitude')->nullable();
+                $table->float('longitude')->nullable();
                 $table->unsignedBigInteger('company_id');
                 $table->unsignedBigInteger('city_id');
+                $table->unsignedBigInteger('gender_id');
+                $table->unsignedBigInteger('title_id')->nullable();
+                $table->timestamps();
+
                 $table->foreign('company_id')->references('id')->on('companies');
                 $table->foreign('city_id')->references('id')->on('cities');
-                $table->timestamps();
+                $table->foreign('gender_id')->references('id')->on('genders');
+                $table->foreign('title_id')->references('id')->on('titles');
             }
         );
     }
