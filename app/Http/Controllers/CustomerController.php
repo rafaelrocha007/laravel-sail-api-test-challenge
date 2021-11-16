@@ -23,17 +23,22 @@ class CustomerController extends Controller
      * Display the specified resource.
      *
      * @param int $id
-     * @return \Illuminate\Http\Response|\Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\JsonResource
+     * @return \Illuminate\Http\JsonResponse|\Illuminate\Http\Resources\Json\JsonResource
      */
     public function show($id)
     {
         try {
+
             $customer = Customer::find($id);
+
             if (!$customer) {
                 return response()->json(['error' => 'Not found'], 404);
             }
+
             $resource = new CustomerShowResource($customer);
+
             $resource->withoutWrapping();
+
             return $resource;
         } catch (\Exception $e) {
             return response()->json(['error' => 'Internal server error'], 500);

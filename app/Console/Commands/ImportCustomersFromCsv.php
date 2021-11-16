@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Customer;
 use App\Services\ImportCustomerService;
 use Illuminate\Console\Command;
 
@@ -38,6 +39,9 @@ class ImportCustomersFromCsv extends Command
      */
     public function handle()
     {
+        if (Customer::all()->count()) {
+            return Command::SUCCESS;
+        }
         $customersFile = fopen(storage_path('csv/customers.csv'), 'r');
         $customersService = new ImportCustomerService();
         $header = fgetcsv($customersFile);
