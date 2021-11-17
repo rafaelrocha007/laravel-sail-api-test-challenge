@@ -15,5 +15,7 @@ yarn-error.log
 /.vscode
 docker/mysql/*
 !docker/mysql/.gitignore
+docker/mysql_testing/*
+!docker/mysql_testing/.gitignore
 docker/redis/*
 !docker/redis/.gitignore
