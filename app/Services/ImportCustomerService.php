@@ -2,51 +2,24 @@
 
 namespace App\Services;
 
-use App\Exceptions\UnknownPlaceException;
 use App\Models\City;
 use App\Models\Company;
 use App\Models\Customer;
 use App\Models\Gender;
 use App\Models\Title;
 
-use function Illuminate\Support\Facades\Log;
-
 class ImportCustomerService
 {
-    private $geocodingService;
-
-    /**
-     * ImportCustomerService constructor.
-     */
-    public function __construct(GeocodingService $geocodingService)
-    {
-        $this->geocodingService = $geocodingService;
-    }
-
-    public function createCustomerFromArray(array $data): void
+    public function createCustomerFromFile(array $data): void
     {
         $this->validateCSVInputData($data);
         $parsedData = $this->parseFileData($data);
-        $customer = Customer::firstOrCreate(
+        Customer::firstOrCreate(
             [
                 'email' => $data['email']
             ],
             $parsedData
         );
-        if ($customer->latitude || $customer->longitude) {
-            return;
-        }
-        try {
-            $geopoint = $this->geocodingService->getGeoPointFromAddress($data['city']);
-            $customer->update(
-                [
-                    'latitude'  => $geopoint->getLat(),
-                    'longitude' => $geopoint->getLong()
-                ]
-            );
-        } catch (UnknownPlaceException $e) {
-            report($e);
-        }
     }
 
     private function validateCSVInputData(array $data): void

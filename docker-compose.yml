@@ -24,6 +24,7 @@ services:
         depends_on:
             - mysql
             - redis
+            - selenium
             - startup-jobs
     startup-jobs:
         image: sail-8.0/app
@@ -36,7 +37,7 @@ services:
             - sail
         depends_on:
             - mysql
-        entrypoint: [bash, -c, 'sleep 30 && php artisan migrate && php artisan passport:install && php artisan import:customers']
+        entrypoint: [bash, -c, 'php artisan migrate && php artisan passport:install && php artisan import:customers']
     mysql:
         image: 'mysql/mysql-server:8.0'
         ports:
@@ -68,6 +69,12 @@ services:
             test: ["CMD", "redis-cli", "ping"]
             retries: 3
             timeout: 5s
+    selenium:
+        image: 'selenium/standalone-chrome'
+        volumes:
+            - '/dev/shm:/dev/shm'
+        networks:
+            - sail
 networks:
     sail:
         driver: bridge
