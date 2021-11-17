@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Customer;
+use App\Services\GoogleMapsService;
 use App\Services\ImportCustomerService;
 use Illuminate\Console\Command;
 
@@ -43,10 +44,10 @@ class ImportCustomersFromCsv extends Command
             return Command::SUCCESS;
         }
         $customersFile = fopen(storage_path('csv/customers.csv'), 'r');
-        $customersService = new ImportCustomerService();
+        $customersService = new ImportCustomerService(new GoogleMapsService());
         $header = fgetcsv($customersFile);
         while ($row = fgetcsv($customersFile)) {
-            $customersService->createCustomerFromFile(array_combine($header, $row));
+            $customersService->createCustomerFromArray(array_combine($header, $row));
         }
         return Command::SUCCESS;
     }

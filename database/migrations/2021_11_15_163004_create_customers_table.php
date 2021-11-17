@@ -20,8 +20,8 @@ class CreateCustomersTable extends Migration
                 $table->string('first_name');
                 $table->string('last_name')->nullable();
                 $table->string('email')->unique();
-                $table->float('latitude')->nullable();
-                $table->float('longitude')->nullable();
+                $table->float('latitude', '15', '10')->nullable();
+                $table->float('longitude', '15', '10')->nullable();
                 $table->unsignedBigInteger('company_id');
                 $table->unsignedBigInteger('city_id');
                 $table->unsignedBigInteger('gender_id');
