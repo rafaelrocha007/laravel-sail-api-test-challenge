@@ -1,66 +1,191 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+## Getting started
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This code test project was developed using Laravel 8, and powered by the development environment offered by Laravel Sail
+and can be launched using the following steps:
 
-## About Laravel
+1. First you need to clone from [GitHub](https://github.com/rafaelrocha007/meveto-test)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+```bash
+git clone git@github.com:rafaelrocha007/meveto-test.git
+```
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+or unpack the project code into a local folder.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+2. Get into your folder:
 
-## Learning Laravel
+```bash
+cd meveto-test
+```
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+or another folder name if you changed the destination folder on clone or unpacking.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. Run composer install to get dependencies ready to use.
 
-## Laravel Sponsors
+```bash
+composer install
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+4. Make a `.env` copy from `.env.example` in root folder of project and fill with your own data. Let's take a look in
+   some variables you must care about:
 
-### Premium Partners
+* If you are running a webserver like Apache or Nginx on your local machine, `APP_PORT` must be set to a different port
+  from default (:80),
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[CMS Max](https://www.cmsmax.com/)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-- **[Romega Software](https://romegasoftware.com)**
+```dotenv
+APP_PORT=8007
+```
 
-## Contributing
+* Running the project based on `Sail` you should use `MySQL` and db user as `root`, db name and password does not matter
+  at all.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+```dotenv
+DB_CONNECTION=mysql
+DB_HOST=mysql
+DB_PORT=3306
+DB_DATABASE=meveto_test
+DB_USERNAME=root
+DB_PASSWORD=
+```
 
-## Code of Conduct
+* If you do not fill the following Laravel Sail variables, it will try to use default port values and may conflict with
+  running applications running on host machine, like MySQL using `3306` or Redis using `6379`.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```dotenv
+# Laravel Sail
+FORWARD_DB_PORT=13306
+FORWARD_REDIS_PORT=16379
+```
 
-## Security Vulnerabilities
+* To work correct, is important provide also a Google Geocoding API key.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+```dotenv
+GOOGLE_MAPS_API_KEY=
+```
 
-## License
+5. Once variables were set, you should run `Laravel Sail` startup command:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+vendor/bin/sail up
+```
+
+6. Now you can access your browser and see the Laravel main page through <http://localhost:8007>, see that `8007` port
+   must be the same set on `APP_PORT` variable.
+
+## The application
+
+This is a simple API with 4 endpoints:
+
+### Register
+Register a new user
+```json
+POST /api/register
+{
+    "name": "Rafael",
+    "email": "rafael.rocha.mg@gmail.com3",
+    "password": "12345678",
+    "password_confirmation": "12345678"
+}
+```
+#### Example Response
+```json
+{
+  "token": "xxxxx.yyyyy.zzzzz"
+}
+```
+
+### Login
+Login to get access token for the next requests authentication
+```json
+POST /api/login
+{
+    "email": "rafael.rocha.mg@gmail.com3",
+    "password": "12345678",
+}
+```
+#### Example Response
+```json
+{
+  "token": "xxxxx.yyyyy.zzzzz"
+}
+```
+
+### Customers | Retrieve all
+Get a paginated collection of Customers, pass `page` parameter to get another page. You should also provide your acess token as Bearer Authentication.
+```json
+GET /api/customers
+```
+#### Example Response
+```json
+{
+    "data": [
+        {
+            "id": 1,
+            "first_name": "Laura",
+            "last_name": "Richards",
+            "full_name": "Laura Richards",
+            "gender": "Female",
+            "city": "Warner",
+            "state": "NH",
+            "company": "Meezzy",
+            "title": "Biostatistician III",
+            "latitude": 43.2556568,
+            "longitude": -71.8334145
+        },
+       ...
+    ],
+    "links": {
+        "first": "http:\/\/localhost:8007\/api\/customers?page=1",
+        "last": "http:\/\/localhost:8007\/api\/customers?page=40",
+        "prev": null,
+        "next": "http:\/\/localhost:8007\/api\/customers?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 40,
+        "links": [
+            {
+                "url": null,
+                "label": "&laquo; Previous",
+                "active": false
+            },
+            {
+                "url": "http:\/\/localhost:8007\/api\/customers?page=1",
+                "label": "1",
+                "active": true
+            },
+            {
+                "url": "http:\/\/localhost:8007\/api\/customers?page=2",
+                "label": "Next &raquo;",
+                "active": false
+            }
+        ],
+        "path": "http:\/\/localhost:8007\/api\/customers",
+        "per_page": 25,
+        "to": 25,
+        "total": 1000
+    }
+}
+```
+
+### Customers | Retrieve one by `id`
+Get a single Customer, passing `id` as parameter. You should also provide your acess token as Bearer Authentication.
+```json
+GET /api/customers/{id}
+```
+#### Example Response
+```json
+{
+    "id": 1,
+    "first_name": "Laura",
+    "last_name": "Richards",
+    "full_name": "Laura Richards",
+    "gender": "Female",
+    "city": "Warner",
+    "state": "NH",
+    "company": "Meezzy",
+    "title": "Biostatistician III",
+    "latitude": 43.2556568,
+    "longitude": -71.8334145
+} 
+```
