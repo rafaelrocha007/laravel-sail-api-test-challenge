@@ -32,7 +32,7 @@ class CustomersApiTest extends TestCase
                 "password"              => "12345678",
                 "password_confirmation" => "12345678"
             ]
-        )->json();
+        )->json('token');
         $gender = Gender::create(['description' => 'Female']);
         $company = Company::create(['name' => 'My company']);
         $city = City::create(['name' => 'My city', 'state' => 'AZ']);
@@ -46,8 +46,28 @@ class CustomersApiTest extends TestCase
                 'city_id'    => $city->id
             ]
         );
-        $response = $this->withHeader('Authorization', 'Bearer ' . $accessToken)
-            ->getJson('/api/customers/' . $customer->id);
+        $response = $this->withHeader(
+            'Authorization',
+            'Bearer ' . $accessToken
+        )->getJson('/api/customers/' . $customer->id);
         $response->assertStatus(200);
+    }
+
+    public function test_authorized_not_found_customer_request()
+    {
+        $accessToken = $this->postJson(
+            '/api/register',
+            [
+                "name"                  => "user",
+                "email"                 => "user@mail.com",
+                "password"              => "12345678",
+                "password_confirmation" => "12345678"
+            ]
+        )->json('token');
+        $response = $this->withHeader(
+            'Authorization',
+            'Bearer ' . $accessToken
+        )->getJson('/api/customers/123');
+        $response->assertStatus(404);
     }
 }

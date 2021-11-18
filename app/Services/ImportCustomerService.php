@@ -9,8 +9,6 @@ use App\Models\Customer;
 use App\Models\Gender;
 use App\Models\Title;
 
-use function Illuminate\Support\Facades\Log;
-
 class ImportCustomerService
 {
     private $geocodingService;
@@ -68,9 +66,9 @@ class ImportCustomerService
             'city'
         ];
 
-        foreach ($data as $key => $value) {
-            if (in_array($key, $mandatoryFields) && !$value) {
-                throw new \Exception("Field $key must not be empty");
+        foreach ($mandatoryFields as $field) {
+            if (!array_key_exists($field, $data) || !$data[$field]) {
+                throw new \Exception("Field $field must not be empty");
             }
         }
     }
