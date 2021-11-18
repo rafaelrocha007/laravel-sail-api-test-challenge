@@ -70,6 +70,33 @@ vendor/bin/sail up
 
 6. Now you can access your browser and see the Laravel main page through <http://localhost:8007>, see that `8007` port
    must be the same set on `APP_PORT` variable.
+   
+### Considerations
+#### Importing data
+Even customers importing runs on startup, you can run it again anytime running:
+* If you start your app using Laravel Sail run:
+```bash
+vendor/bin/sail artisan import:customers
+```
+* Otherwise just run using php:
+```bash
+php artisan import:customers
+```
+
+#### Testing
+Before running tests, make sure your `.env.testing` file in root folder contains at least this two variables set:
+```dotenv
+APP_ENV=testing
+APP_KEY=sample_key
+```
+* If you start your app using Laravel Sail run:
+```bash
+vendor/bin/sail artisan test
+```
+* Otherwise just run using php:
+```bash
+php artisan test
+```
 
 ## The application
 
@@ -81,7 +108,7 @@ Register a new user
 POST /api/register
 {
     "name": "Rafael",
-    "email": "rafael.rocha.mg@gmail.com3",
+    "email": "rafael.rocha.mg@gmail.com",
     "password": "12345678",
     "password_confirmation": "12345678"
 }
@@ -98,7 +125,7 @@ Login to get access token for the next requests authentication
 ```json
 POST /api/login
 {
-    "email": "rafael.rocha.mg@gmail.com3",
+    "email": "rafael.rocha.mg@gmail.com",
     "password": "12345678",
 }
 ```
@@ -110,7 +137,7 @@ POST /api/login
 ```
 
 ### Customers | Retrieve all
-Get a paginated collection of Customers, pass `page` parameter to get another page. You should also provide your acess token as Bearer Authentication.
+Get a paginated collection of Customers, pass `page` parameter to get another page. You should also provide your access token as Bearer Authentication.
 ```json
 GET /api/customers
 ```
@@ -169,7 +196,7 @@ GET /api/customers
 ```
 
 ### Customers | Retrieve one by `id`
-Get a single Customer, passing `id` as parameter. You should also provide your acess token as Bearer Authentication.
+Get a single Customer, passing `id` as parameter. You should also provide your access token as Bearer Authentication.
 ```json
 GET /api/customers/{id}
 ```
