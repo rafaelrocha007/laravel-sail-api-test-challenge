@@ -17,6 +17,7 @@ class CustomerShowResource extends JsonResource
             'first_name' => $this->first_name,
             'last_name'  => $this->last_name,
             'full_name'  => trim($this->first_name . ' ' . $this->last_name),
+            'email'      => $this->email,
             'gender'     => $this->gender->description ?? null,
             'city'       => $this->city->name ?? null,
             'state'      => $this->city->state ?? null,
