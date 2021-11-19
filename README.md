@@ -1,7 +1,20 @@
 ## Getting started
 
-This code test project was developed using Laravel 8, and powered by the development environment offered by Laravel Sail
-and can be launched using the following steps:
+This project was developed with Laravel 8 and powered by the development environment offered by Laravel Sail (Docker environment).
+
+Main technologies used here:
+* PHP 8
+* MySQL 8 
+* Laravel 8
+* Laravel Passport
+* JWT API Authentication
+* Laravel Sail
+* Docker / Docker-compose for development environment
+* PHPUnit
+* Laravel mix 
+* React SPA front-end
+
+It can be launched following some steps:
 
 1. First you need to clone from [GitHub](https://github.com/rafaelrocha007/meveto-test)
 
