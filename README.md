@@ -102,6 +102,8 @@ php artisan test
 
 This is a simple API with 4 endpoints:
 
+(For convenience, this project has an [Insomnia](https://insomnia.rest/) collection attached at `storage/docs/InsomniaAPICollection.json`)
+
 ### Register
 Register a new user
 ```json
@@ -216,3 +218,14 @@ GET /api/customers/{id}
     "longitude": -71.8334145
 } 
 ```
+
+## Screenshots
+
+Login Form
+
+![Login form](https://github.com/rafaelrocha007/meveto-test/blob/main/storage/docs/Customers-login-page.png?raw=true)  
+
+Customers list page
+
+![Login form](https://github.com/rafaelrocha007/meveto-test/blob/main/storage/docs/Customers-list-page.png?raw=true)  
+
